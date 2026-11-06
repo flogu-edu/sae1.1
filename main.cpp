@@ -5,7 +5,7 @@
 
 int main() {
     std::string games[2] = {
-        "Le jeu",
+        "Tic Tac Stack",
         "ceci est un exemple"
     };
     const int nbGame = 2;

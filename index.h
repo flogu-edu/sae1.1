@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "minigames/test.h"
+#include "minigames/ticktackstack.h"
 
 void displayMenu(std::string games[], int nbGames);
 int menuInput(std::string games[], int nbGames);
@@ -38,7 +39,7 @@ void chooseGame(int gameNb) {
     {
     case 0:
         // fonction jeu 1
-        std::cout<<"Le jeu choisi est le 0"<<std::endl;
+       tictacstack();
         break;
     
     default:
