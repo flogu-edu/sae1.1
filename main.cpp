@@ -1,12 +1,12 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include "index.h"
+#include "./index.h"
 
 int main() {
     std::string games[2] = {
-        "Tic Tac Stack",
-        "ceci est un exemple"
+        "Pow n",
+        "Tic Tac Stack"
     };
     const int nbGame = 2;
 

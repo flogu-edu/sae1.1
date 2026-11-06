@@ -1,8 +1,8 @@
-#include "func_pow_n.cpp"
+#include "func_pow_n.hpp"
 #include <iostream>
 #include <vector>
 
-int main() {
+int pow_n() {
 
     int n = 6;
 

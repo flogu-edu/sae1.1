@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 #include "minigames/test.h"
-#include "minigames/ticktackstack.h"
+#include "minigames/pow_n/pow_n.hpp"
+#include "minigames/ticktackstack.hpp"
 
 void displayMenu(std::string games[], int nbGames);
 int menuInput(std::string games[], int nbGames);
@@ -39,8 +40,11 @@ void chooseGame(int gameNb) {
     {
     case 0:
         // fonction jeu 1
-       tictacstack();
+       pow_n();
         break;
+    
+    case 1:
+        tictacstack();
     
     default:
         break;
