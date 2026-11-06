@@ -1,13 +1,13 @@
 #include <iostream>
 #include <vector>
 
-void displayPuissance_n(int n, std::vector<std::vector<char>>& grille) {
+void displayPow_n(int n, std::vector<std::vector<char>>& grid) {
 
     std::cout << std::endl;
 
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
-            std::cout << grille[i][j] << " ";
+            std::cout << grid[i][j] << " ";
         }
         std::cout << std::endl;
     }
@@ -19,7 +19,7 @@ void displayPuissance_n(int n, std::vector<std::vector<char>>& grille) {
     std::cout << std::endl;
 }
 
-bool verifierVictoire(int n, std::vector<std::vector<char>>& grille, char pion) {
+bool checkVictory(int n, std::vector<std::vector<char>>& grid, char pawn) {
 
     // Vérification horizontale et verticale
     for (int i = 0; i < n; ++i) {
@@ -27,37 +27,37 @@ bool verifierVictoire(int n, std::vector<std::vector<char>>& grille, char pion) 
 
             // Horizontal
             if (j + 3 < n &&
-                grille[i][j] == pion &&
-                grille[i][j+1] == pion &&
-                grille[i][j+2] == pion &&
-                grille[i][j+3] == pion) {
+                grid[i][j] == pawn &&
+                grid[i][j+1] == pawn &&
+                grid[i][j+2] == pawn &&
+                grid[i][j+3] == pawn) {
                 return true;
             }
 
             // Vertical
             if (i + 3 < n &&
-                grille[i][j] == pion &&
-                grille[i+1][j] == pion &&
-                grille[i+2][j] == pion &&
-                grille[i+3][j] == pion) {
+                grid[i][j] == pawn &&
+                grid[i+1][j] == pawn &&
+                grid[i+2][j] == pawn &&
+                grid[i+3][j] == pawn) {
                 return true;
             }
 
             // Diagonale descendante
             if (i + 3 < n && j + 3 < n &&
-                grille[i][j] == pion &&
-                grille[i+1][j+1] == pion &&
-                grille[i+2][j+2] == pion &&
-                grille[i+3][j+3] == pion) {
+                grid[i][j] == pawn &&
+                grid[i+1][j+1] == pawn &&
+                grid[i+2][j+2] == pawn &&
+                grid[i+3][j+3] == pawn) {
                 return true;
             }
 
             // Diagonale montante
             if (i >= 3 && j + 3 < n &&
-                grille[i][j] == pion &&
-                grille[i-1][j+1] == pion &&
-                grille[i-2][j+2] == pion &&
-                grille[i-3][j+3] == pion) {
+                grid[i][j] == pawn &&
+                grid[i-1][j+1] == pawn &&
+                grid[i-2][j+2] == pawn &&
+                grid[i-3][j+3] == pawn) {
                 return true;
             }
         }
