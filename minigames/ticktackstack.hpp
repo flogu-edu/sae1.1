@@ -36,7 +36,7 @@ void afficherGrille(int tailleGrille, int tailleCase, std::string tab[][100]){
     }
 }
 
-void jouerCroix(int posX, int posY,  int tailleGrille, int tailleCase, unsigned int Croix, std::string tab[][100]){
+void jouerCroix(int posX, int posY,  int tailleGrille, int tailleCase, int Croix, std::string tab[][100]){
     int posfinalX ;
     int posfinalY ;
     int pas = tailleCase + 1 ;
@@ -92,7 +92,7 @@ void jouerCroix(int posX, int posY,  int tailleGrille, int tailleCase, unsigned 
     afficherGrille(tailleGrille, tailleCase, tab);
 }
 
-void jouerCercle(int posX, int posY,  int tailleGrille, int tailleCase, unsigned int Cercle, std::string tab[][100]){
+void jouerCercle(int posX, int posY,  int tailleGrille, int tailleCase, int Cercle, std::string tab[][100]){
     int posfinalX ;
     int posfinalY ;
     int pas = tailleCase + 1 ;
@@ -150,7 +150,7 @@ void jouerCercle(int posX, int posY,  int tailleGrille, int tailleCase, unsigned
     afficherGrille(tailleGrille, tailleCase, tab);
 }
 
-bool jouerPossible(int posX, int posY, int tailleCase, unsigned int Croix, unsigned int Cercle,  std::string tab[][100]){
+bool jouerPossible(int posX, int posY, int tailleCase, int Croix, int Cercle,  std::string tab[][100]){
     int posfinalX ;
     int posfinalY ;
     int pas = tailleCase + 1 ;
@@ -172,57 +172,58 @@ bool jouerPossible(int posX, int posY, int tailleCase, unsigned int Croix, unsig
     }
 }
 
-bool debutPartie(int & tailleGrille, int & tailleCase, std::string tab[][100], std::string & Jouer, unsigned int & Croix, unsigned int & Cercle){
+bool debutPartie(int & tailleGrille, int & tailleCase, std::string tab[][100], std::string & Jouer, int & Croix, int & Cercle){
     int posX = 0 ;
     int posY = 0;
     int taille = (tailleGrille * tailleCase);
 
     if(taille > 100){
-    std::cout<<"Taille de la grille ?" <<std::endl;
-    std::cin>>tailleGrille;
+        std::cout<<"Taille de la grille ?" <<std::endl;
+        std::cin>>tailleGrille;
 
-    std::cout<<"Taille de chaque case ?" <<std::endl;
-    std::cin>>tailleCase;
+        std::cout<<"Taille de chaque case ?" <<std::endl;
+        std::cin>>tailleCase;
 
-    creerGrille(tailleGrille, tailleCase, tab);
+        creerGrille(tailleGrille, tailleCase, tab);
 
-    std::cout<<"Qui commence ?" <<std::endl;
-    std::cin>>Jouer;
+        std::cout<<"Qui commence ?" <<std::endl;
+        std::cin>>Jouer;
 
-    if(Jouer == "Croix" || Jouer == "croix"){
-        std::cout<<"Taille de la Croix ?"<<std::endl;
-        std::cin>>Croix;
+        if(Jouer == "Croix" || Jouer == "croix"){
+            std::cout<<"Taille de la Croix ?"<<std::endl;
+            std::cin>>Croix;
+                
+            std::cout<<"Quelle ligne ?" <<std::endl;
+            std::cin>>posX;
+
+            std::cout<<"Quelle colonne ?" <<std::endl;
+            std::cin>>posY;
+            jouerCroix(posX, posY, tailleGrille, tailleCase, Croix, tab);
+            return true ;
+        }
+        else if(Jouer == "Cercle" || Jouer == "cercle"){
+            std::cout<<"Taille du cercle ?"<<std::endl;
+            std::cin>>Cercle;
             
-        std::cout<<"Quelle ligne ?" <<std::endl;
-        std::cin>>posX;
+            std::cout<<"Quelle ligne ?" <<std::endl;
+            std::cin>>posX;
 
-        std::cout<<"Quelle colonne ?" <<std::endl;
-        std::cin>>posY;
-        jouerCroix(posX, posY, tailleGrille, tailleCase, Croix, tab);
-        return true ;
+            std::cout<<"Quelle colonne ?" <<std::endl;
+            std::cin>>posY;
+            jouerCercle(posX, posY, tailleGrille, tailleCase, Cercle, tab);
+            return false ;
+        }
+        else{
+            return debutPartie(tailleGrille, tailleCase, tab, Jouer, Croix, Cercle);
+        }
     }
-    else if(Jouer == "Cercle" || Jouer == "cercle"){
-        std::cout<<"Taille du cercle ?"<<std::endl;
-        std::cin>>Cercle;
-        
-        std::cout<<"Quelle ligne ?" <<std::endl;
-        std::cin>>posX;
-
-        std::cout<<"Quelle colonne ?" <<std::endl;
-        std::cin>>posY;
-        jouerCercle(posX, posY, tailleGrille, tailleCase, Cercle, tab);
-        return false ;
-    }
-    else{
-        return debutPartie(tailleGrille, tailleCase, tab, Jouer, Croix, Cercle);
-    }
-    }
+    return false;
 }
 
-void Partie(int & posX, int & posY,  int & tailleGrille, int & tailleCase, unsigned int & Cercle, unsigned int & Croix, std::string tab[][100], std::string Jouer){
+void Partie(int & posX, int & posY,  int & tailleGrille, int & tailleCase, int & Cercle, int & Croix, std::string tab[][100], std::string Jouer){
     debutPartie(tailleGrille, tailleCase, tab, Jouer, Croix, Cercle);
     int x = (debutPartie(tailleGrille, tailleCase, tab, Jouer, Croix, Cercle));
-    for( int i = 0 ; i < (3 * (tailleGrille*tailleGrille)); i++){
+    for( int i = 0 ; i < ((tailleCase - 1) * (tailleGrille*tailleGrille)); i++){
         if(x == 0){
             std::cout<<"Taille de la Croix ?"<<std::endl;
             std::cin>>Croix;
@@ -258,16 +259,16 @@ void Partie(int & posX, int & posY,  int & tailleGrille, int & tailleCase, unsig
     }
 }
 
-int tictacstack()
+void tictacstack()
 {
     std::string tab[100][100];
     //std::string Jouer ;
-    unsigned int tailleGrille = 5 ;
-    unsigned int tailleCase = 3 ;
-    unsigned int Croix = 0 ;
-    unsigned int Cercle = 0 ;
-    int posX = 0;
-    int posY = 0;
+    int tailleGrille = 5 ;
+    int tailleCase = 3 ;
+    //int Croix = 0 ;
+    //int Cercle = 0 ;
+    //int posX = 0;
+    //int posY = 0;
 
     creerGrille(tailleGrille, tailleCase, tab);
     afficherGrille(tailleGrille, tailleCase, tab);
