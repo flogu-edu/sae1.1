@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include "minigames/test.h"
 #include "minigames/pow_n/pow_n.hpp"
 #include "minigames/ticktackstack.hpp"
+#include "minigames/wordle/wordle.h"
 
 void displayMenu(std::string games[], int nbGames);
 int menuInput(std::string games[], int nbGames);
@@ -39,12 +39,16 @@ void chooseGame(int gameNb) {
     switch (gameNb)
     {
     case 0:
-        // fonction jeu 1
        pow_n();
-        break;
+       break;
     
     case 1:
         tictacstack();
+        break;
+
+    case 2:
+        wordle();
+        break;
     
     default:
         break;
