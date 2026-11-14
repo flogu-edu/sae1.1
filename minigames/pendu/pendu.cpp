@@ -37,7 +37,7 @@ char getUserInput() {
 
 void check(char userInput, std::string word, std::string & userWord, int & failsNb, std::string & fails) {
     bool isCorrect = false;
-    for(int i = 0; i < word.length(); i++) {
+    for(unsigned int i = 0; i < word.length(); i++) {
         if(userInput == word[i]) {
             userWord[i] = userInput;
             isCorrect = true;
@@ -50,7 +50,7 @@ void check(char userInput, std::string word, std::string & userWord, int & fails
 }
 
 bool checkSuccess(std::string userWord) {
-    for(int i = 0; i < userWord.length(); i++) {
+    for(unsigned int i = 0; i < userWord.length(); i++) {
         if(userWord[i] == '_') {
             return false;
         }
@@ -169,8 +169,6 @@ void pendu() {
     int failsNb = 0;
     char userInput;
     std::string fails = "";
-
-    bool isSuccess = false;
 
     while (!checkSuccess(userWord) && failsNb < 7) {
         clearScreen();
