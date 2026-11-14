@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <string>
 #include "../../utils/getRandomWord.h"
+#include "../../utils/clearScreen.h"
+#include "../../utils/backToMenu.h"
 
 void displayPendu(std::string userWord) {
     for(unsigned int i = 0; i < userWord.length(); i++) {
@@ -171,6 +173,7 @@ void pendu() {
     bool isSuccess = false;
 
     while (!checkSuccess(userWord) && failsNb < 7) {
+        clearScreen();
         displayFailures(fails);
         displayPendu(userWord);
         userInput = getUserInput();
@@ -182,4 +185,6 @@ void pendu() {
     } else {
         std::cout<<"You loose, the word was : "<<word<<std::endl;
     }
+    
+    backToMenu();
 }

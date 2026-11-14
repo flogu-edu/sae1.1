@@ -4,6 +4,6 @@
 #include <iostream>
 
 int menuInput(std::string games[], int nbGames);
-void chooseGame(int gameNb);
+bool chooseGame(int gameNb);
 
 #endif

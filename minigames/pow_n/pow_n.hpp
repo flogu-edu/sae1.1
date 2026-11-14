@@ -1,6 +1,7 @@
 #include "func_pow_n.hpp"
 #include <iostream>
 #include <vector>
+#include "../../utils/backToMenu.h"
 
 int pow_n() {
 
@@ -50,6 +51,7 @@ int pow_n() {
 
             std::cout << "Le joueur " << player << " a gagne !" << std::endl;
 
+            backToMenu();
             return 0;
         }
 
@@ -63,5 +65,6 @@ int pow_n() {
 
     std::cout << "Match nul !" << std::endl;
 
+    backToMenu();
     return 0;
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include "utils/clearScreen.h"
 
 #include "minigames/pow_n/pow_n.hpp"
 #include "minigames/ticktackstack.hpp"
@@ -15,6 +16,7 @@ int menuInput(std::string games[], int nbGames) {
 
     while(!validEntry) {
         displayMenu(games, nbGames);
+        std::cout<<"Enter a number ";
         std::cin>>chosenGame;
 
         if(chosenGame < 0 || chosenGame > nbGames - 1) {
@@ -25,37 +27,46 @@ int menuInput(std::string games[], int nbGames) {
         }
     }
 
+    clearScreen();
     return chosenGame;
 }
 
 void displayMenu(std::string games[], int nbGames) {
+    clearScreen();
     std::cout<<"Choose a game : "<<std::endl;
     for(int i = 0; i < nbGames; i++) {
         std::cout<<i<<" "<<games[i]<<std::endl;
     }
-    std::cout<<"Enter a number ";
 }
 
-void chooseGame(int gameNb) {
-    switch (gameNb)
-    {
+bool chooseGame(int gameNb) {
+    switch (gameNb) {
     case 0:
-       pow_n();
-       break;
+        return false;
+        break;
     
     case 1:
-        tictacstack();
+        pow_n();
+        return true;
         break;
-
+       
     case 2:
+        tictacstack();
+        return true;
+        break;
+       
+    case 3:
         wordle();
+        return true;
         break;
 
-    case 3:
+    case 4:
         pendu();
+        return true;
         break;
     
     default:
+        return true;
         break;
     }
 }

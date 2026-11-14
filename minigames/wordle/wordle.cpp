@@ -3,6 +3,7 @@
 #include <ctime>
 #include "wordle.h"
 #include "../../utils/getRandomWord.h"
+#include "../../utils/backToMenu.h"
 
 void displayWordle(std::string letters[][5], int status[][5]) {
     for(int i = 0; i < 5; i++) {
@@ -152,7 +153,7 @@ void wordle() {
 
     std::string userWord = "";
 
-    while (attempt < 5 && !isSuccess(status)) {
+    while (attempt <= 5 && !isSuccess(status)) {
         displayWordle(letters, status);
         userWord = getUserWord();
         checkWord(attempt, userWord, chosenWord, letters, status);
@@ -166,4 +167,6 @@ void wordle() {
     if (isSuccess(status)) {
         std::cout<<"You won, the word was : "<<chosenWord<<std::endl;
     }
+
+    backToMenu();
 }
