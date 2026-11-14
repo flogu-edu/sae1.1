@@ -4,11 +4,12 @@
 #include "./index.h"
 
 int main() {
-    const int nbGame = 3;
+    const int nbGame = 4;
     std::string games[] = {
         "Pow n",
         "Tic Tac Stack",
-        "Wordle"
+        "Wordle",
+        "Pendu"
     };
 
     while (true) {
