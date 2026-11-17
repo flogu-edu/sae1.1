@@ -43,30 +43,24 @@ bool chooseGame(int gameNb) {
     switch (gameNb) {
     case 0:
         return false;
-        break;
     
     case 1:
         pow_n();
         return true;
-        break;
        
     case 2:
         tictacstack();
         return true;
-        break;
        
     case 3:
         wordle();
         return true;
-        break;
 
     case 4:
         pendu();
         return true;
-        break;
     
     default:
         return true;
-        break;
     }
 }

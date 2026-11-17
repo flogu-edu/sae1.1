@@ -85,7 +85,3 @@ void snakeGame() {
     addTail(testBody);
     displaySnake(testBody);
 }
-
-int main() {
-    snakeGame();
-}
