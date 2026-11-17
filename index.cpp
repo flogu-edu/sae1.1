@@ -6,6 +6,7 @@
 #include "minigames/ticktackstack.hpp"
 #include "minigames/wordle/wordle.h"
 #include "minigames/pendu/pendu.h"
+#include "minigames/snake/snake.h"
 
 void displayMenu(std::string games[], int nbGames);
 int menuInput(std::string games[], int nbGames);
@@ -58,6 +59,10 @@ bool chooseGame(int gameNb) {
 
     case 4:
         pendu();
+        return true;
+
+    case 5:
+        snakeGame();
         return true;
     
     default:
