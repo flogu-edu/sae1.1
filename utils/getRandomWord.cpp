@@ -3,5 +3,6 @@
 
 std::string getRandomWord(std::string wordList[], int size) {
     int randomNb = rand() % size;
-    return wordList[randomNb];
+    std::string word = wordList[randomNb];
+    return word;
 }

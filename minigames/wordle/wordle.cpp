@@ -60,7 +60,7 @@ void checkWord(int attempt, std::string userWord, std::string chosenWord,std::st
             status[attempt][j] = 2;
         } else {
             for(int k = 0; k < 5; k++) {
-                if(userWord[k] == chosenWord[j]) {
+                if(userWord[j] == chosenWord[k]) {
                     status[attempt][j] = 1;
                     break;
                 }
@@ -142,18 +142,19 @@ void wordle() {
         "trump",
         "gayyy"
     };
+    int wordNb = 51;
 
-    std::string chosenWord = getRandomWord(wordList, 52);
-
+    std::string chosenWord = getRandomWord(wordList, wordNb);
+    
     std::string letters[5][5];
     int status[5][5];
     
     int attempt = 0;
     clearWordle(letters, status);
-
+    
     std::string userWord = "";
-
-    while (attempt <= 5 && !isSuccess(status)) {
+    
+    while (attempt < 5 && !isSuccess(status)) {
         displayWordle(letters, status);
         userWord = getUserWord();
         checkWord(attempt, userWord, chosenWord, letters, status);
