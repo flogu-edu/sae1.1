@@ -4,7 +4,12 @@
 #include "snake.h"
 #include "../../utils/clearScreen.h"
 #include "../../utils/backToMenu.h"
-#include "../../utils/getInput.h"
+#include "../../utils/getRandomNb.h"
+
+
+#ifdef _WIN32
+    #include <conio.h>
+#endif
 
 struct position {
     int x;
@@ -22,6 +27,12 @@ struct snake {
     maillon *head;
     maillon *tail;
 };
+
+struct fruit {
+    int x;
+    int y;
+};
+
 
 void init(snake *body, int gridSize) {
     maillon *newPart =  new maillon;
@@ -148,19 +159,59 @@ void changeDirection(snake *body, char newDirection) {
     body->head->direction = newDirection;
 }
 
-char chooseDirection() {
-    switch (getInput()) {
-        case 72:
-            return 'N';
-        case 80:
-            return 'S';
-        case 75:
-            return 'W';
-        case 77:
-            return 'E';
-        default:
-            return 'E';
-    }
+char chooseDirection(char actual) {
+    #ifdef _WIN32
+        static bool waitingForArrowCode = false;
+
+        char newDirection = actual;
+
+        while (_kbhit()) {
+            int input = _getch();
+
+            if (input == 0 || input == 224) {
+                waitingForArrowCode = true;
+                continue;
+            }
+
+            if (waitingForArrowCode) {
+                waitingForArrowCode = false;
+
+                switch (input) {
+                    case 72: newDirection = 'N'; break;
+                    case 80: newDirection = 'S'; break;
+                    case 75: newDirection = 'W'; break;
+                    case 77: newDirection = 'E'; break;
+                }
+            }
+        }
+
+        return newDirection;
+    #endif
+    return actual;
+}
+
+char getCurrentDirection(snake * body) {
+    return body->head->direction;
+}
+
+fruit * createFruit(int gridSize){
+    fruit *newFruit = new fruit;
+    newFruit->x = getRandomNb(gridSize);
+    newFruit->y = getRandomNb(gridSize);
+    return newFruit;
+}
+
+void displayFruit(fruit * fruit) {
+    draw(fruit->x, fruit->y, '#');
+}
+
+fruit * eatFruit(fruit * oldFruit, int & score, int gridSize) {
+    delete oldFruit;
+    fruit *newFruit = new fruit;
+    newFruit->x = getRandomNb(gridSize);
+    newFruit->y = getRandomNb(gridSize);
+    score++;
+    return newFruit;
 }
 
 void snakeGame() {
@@ -176,9 +227,8 @@ void snakeGame() {
     addTail(testBody, gridSize);
     addTail(testBody, gridSize);
     
-    int test = getInput();
-    std::cout<<test<<std::endl;
-    
+    char direction = 'E';
+
     for(int i = 0; i < 1000; i++) {
         clearScreen();
         displayGrid(gridSize);
@@ -187,7 +237,11 @@ void snakeGame() {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         forwardSnake(testBody, gridSize);
 
-        changeDirection(testBody, chooseDirection());
+        draw(0, gridSize / 2 + 1, ' ');
+
+        direction = chooseDirection(getCurrentDirection(testBody));
+
+        changeDirection(testBody, direction);
     }
 
     backToMenu();
