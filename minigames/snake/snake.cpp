@@ -4,6 +4,7 @@
 #include "snake.h"
 #include "../../utils/clearScreen.h"
 #include "../../utils/backToMenu.h"
+#include "../../utils/getInput.h"
 
 struct position {
     int x;
@@ -147,6 +148,21 @@ void changeDirection(snake *body, char newDirection) {
     body->head->direction = newDirection;
 }
 
+char chooseDirection() {
+    switch (getInput()) {
+        case 72:
+            return 'N';
+        case 80:
+            return 'S';
+        case 75:
+            return 'W';
+        case 77:
+            return 'E';
+        default:
+            return 'E';
+    }
+}
+
 void snakeGame() {
     clearScreen();
     
@@ -160,25 +176,18 @@ void snakeGame() {
     addTail(testBody, gridSize);
     addTail(testBody, gridSize);
     
+    int test = getInput();
+    std::cout<<test<<std::endl;
     
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < 1000; i++) {
         clearScreen();
         displayGrid(gridSize);
         displaySnake(testBody);
-        draw(0, gridSize/2 + 1, ' ');
-    
+        
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         forwardSnake(testBody, gridSize);
-    }
-    changeDirection(testBody, 'N');
-    for(int i = 0; i < 10; i++) {
-        clearScreen();
-        displayGrid(gridSize);
-        displaySnake(testBody);
-        draw(0, gridSize/2 + 1, ' ');
-    
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        forwardSnake(testBody, gridSize);
+
+        changeDirection(testBody, chooseDirection());
     }
 
     backToMenu();

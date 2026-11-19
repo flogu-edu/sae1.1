@@ -11,13 +11,13 @@ void displayWordle(std::string letters[][5], int status[][5]) {
         for(int j = 0; j < 5; j++) {
             switch (status[i][j]) {
                 case 0:
-                std::cout<<"\e[0;37m"<< letters[i][j]<<"\e[0m";
+                std::cout<<"\033[0;37m"<< letters[i][j]<<"\033[0m";
                 break;
                 case 1:
-                    std::cout<<"\e[0;33m"<< letters[i][j] <<"\e[0m";
+                    std::cout<<"\033[0;33m"<< letters[i][j] <<"\033[0m";
                     break;
                 case 2:
-                std::cout<<"\e[0;32m"<< letters[i][j] <<"\e[0m";
+                std::cout<<"\033[0;32m"<< letters[i][j] <<"\033[0m";
                 break;
             }
         }

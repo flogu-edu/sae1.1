@@ -12,6 +12,7 @@ add_executable(SAE1.1
     utils/backToMenu.cpp
     utils/clearScreen.cpp
     utils/getRandomWord.cpp
+    utils/getInput.cpp
     minigames/pendu/pendu.cpp
     minigames/snake/snake.cpp
     minigames/wordle/wordle.cpp
