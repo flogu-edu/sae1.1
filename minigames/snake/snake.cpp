@@ -314,11 +314,40 @@ void displayScore(int score, int gridSize) {
     std::cout<< "Score : " << score <<std::endl;
 }
 
+int selectSpeed() {
+    int select = 0;
+
+    std::cout<< "Choose the speed : " <<std::endl;
+    std::cout<< "0 Easy" <<std::endl;
+    std::cout<< "1 Normal" <<std::endl;
+    std::cout<< "2 Hard" <<std::endl;
+
+    std::cin>>select;
+
+    switch (select) {
+        case 0:
+            return 500;
+        case 1:
+            return 250;
+        case 2:
+            return 100;
+        default:
+            std::cout<< "Invalid entry, try again" <<std::endl;
+            return selectSpeed();
+    }
+}
+
 void snakeGame() {
     clearScreen();
     
     int gridSize = 50;
-    
+    int speed = 500;
+
+    std::cout<< "Enter the size of the grid : ";
+    std::cin>>gridSize;
+
+    speed = selectSpeed();
+
     snake * body = new snake;
     init(body, gridSize);
     addTail(body, gridSize);
@@ -339,7 +368,7 @@ void snakeGame() {
         
         std::cout << std::flush;
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(speed));
 
         forwardSnake(body, gridSize);
         direction = chooseDirection(getCurrentDirection(body));
