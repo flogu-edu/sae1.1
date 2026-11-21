@@ -337,6 +337,24 @@ int selectSpeed() {
     }
 }
 
+void deleteSnake(snake * body) {
+    maillon * currentMaillon = body->head;
+    
+    while (currentMaillon != nullptr) {
+        maillon * tempMaillon = currentMaillon;
+
+        currentMaillon = tempMaillon->prev;
+
+        delete tempMaillon;
+    }
+
+    delete body;
+}
+
+void deleteFruit(fruit * currentFruit) {
+    delete currentFruit;
+}
+
 void snakeGame() {
     clearScreen();
     
@@ -383,6 +401,9 @@ void snakeGame() {
     } else {
         std::cout<< "You lost..."<<std::endl;
     }
+
+    deleteSnake(body);
+    deleteFruit(currentFruit);
 
     backToMenu();
 }
