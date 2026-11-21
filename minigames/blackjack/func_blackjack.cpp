@@ -9,6 +9,7 @@
 using namespace std;
 
 struct Cards {
+    int rank;
     int value;
     char suit;
 };
@@ -27,7 +28,7 @@ vector<Cards> createCards(){
             else if (i == 1) val = 11;
             else val = i;
 
-            cards.push_back({val, suit[j]});
+            cards.push_back({i, val, suit[j]});
         }
     }
 
@@ -50,7 +51,7 @@ int handValue(vector<Cards>& hand){
 
     while (aces > 0){
 
-        if (aces > 0 && value_all > 21) value_all -= 10;
+        if (value_all > 21) value_all -= 10;
         aces -= 1;
     }
 
@@ -69,13 +70,23 @@ bool exceeds21(vector<Cards>& hand){
     return (handValue(hand) > 21);
 }
 
+// Transforme une valeur de carte en son possible caractère
+string rankToString(int rank){
+
+    if (rank == 11) return "J";
+    else if (rank == 12) return "Q";
+    else if (rank == 13) return "K";
+    else if (rank == 1) return "A";
+    else return to_string(rank);
+}
+
 // Affiche la main avec sa valeur
 void printHand(const string& name, vector<Cards>& hand){
 
     cout << name << " : ";
     for (int i = 0; i < hand.size(); ++i){
         if (i > 0) cout << " | ";
-        cout << hand[i].value << hand[i].suit;
+        cout << rankToString(hand[i].rank) << hand[i].suit;
     }
     cout << " (" << handValue(hand) << ")" << endl;
 }
@@ -146,18 +157,22 @@ void displayBlackjack(){
 
     if (isBlackjack(dealer_hand) && isBlackjack(player_hand)) {
         cout << "Both have a Blackjack, tie !" << endl;
-        printHand("Dealer hand", dealer_hand);
+        printHand("Dealer's hand", dealer_hand);
     }
 
-    if (isBlackjack(dealer_hand)){
+    else if (isBlackjack(dealer_hand)){
 
         cout << "Blackjack for the dealer !" << endl;
-        printHand("Dealer hand", dealer_hand);
+        printHand("Dealer's hand", dealer_hand);
     } 
-    else if (isBlackjack(player_hand)) cout << "Blackjack for you !" << endl;
+    else if (isBlackjack(player_hand)){
+
+        printHand("Dealer's hand", dealer_hand);
+        cout << "Blackjack for you !" << endl;
+    }
     else {
 
-        cout << "Dealer's hand : " << dealer_hand[0].value << dealer_hand[0].suit << " | ?" << endl;
+        cout << "Dealer's hand : " << rankToString(dealer_hand[0].rank) << dealer_hand[0].suit << " | ?" << endl;
 
         int player_value = playerTurn(player_hand);
         if (exceeds21(player_hand)){
