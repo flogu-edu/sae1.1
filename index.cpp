@@ -7,6 +7,7 @@
 #include "minigames/wordle/wordle.h"
 #include "minigames/pendu/pendu.h"
 #include "minigames/snake/snake.h"
+#include "minigames/blackjack/blackjack.h"
 
 void displayMenu(std::string games[], int nbGames);
 int menuInput(std::string games[], int nbGames);
@@ -63,6 +64,10 @@ bool chooseGame(int gameNb) {
 
     case 5:
         snakeGame();
+        return true;
+
+    case 6:
+        blackjack();
         return true;
     
     default:

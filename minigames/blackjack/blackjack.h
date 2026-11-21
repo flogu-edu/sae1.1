@@ -1,7 +1,6 @@
-#include "func_blackjack.h"
-#include <iostream>
+#ifndef BLACKJACK_H
+#define BLACKJACK_H
 
-int main(){
-    srand(time(nullptr));
-    displayBlackjack();
-}
+void blackjack();
+
+#endif

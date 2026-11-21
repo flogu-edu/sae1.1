@@ -16,6 +16,7 @@ add_executable(SAE1.1
     minigames/pendu/pendu.cpp
     minigames/snake/snake.cpp
     minigames/wordle/wordle.cpp
+    minigames/blackjack/func_blackjack.cpp
 )
 
 target_include_directories(SAE1.1 PRIVATE ${PROJECT_SOURCE_DIR})

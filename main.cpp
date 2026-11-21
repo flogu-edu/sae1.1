@@ -4,14 +4,15 @@
 #include "./index.h"
 
 int main() {
-    const int nbGame = 6;
+    const int nbGame = 7;
     std::string games[] = {
         "Exit",
         "Pow n",
         "Tic Tac Stack",
         "Wordle",
         "Pendu",
-        "Snake"
+        "Snake",
+        "BlackJack"
     };
 
     bool continueMenu = true;
