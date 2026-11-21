@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
-#include <random>
 #include <string>
+#include <ctime>
 
 #include "blackjack.h"
 #include "../../utils/backToMenu.h"
@@ -169,10 +169,11 @@ void displayBlackjack(){
 // Fait jouer au moins une fois, puis demande si on veut rejouer
 void blackjack(){
 
+    srand(time(NULL));
+
     do {
         displayBlackjack();
     } while (askReplay());
-    
 
     backToMenu();
 }
