@@ -9,6 +9,10 @@
 
 #ifdef _WIN32
     #include <conio.h>
+#else
+    #include <termios.h>
+    #include <unistd.h>
+    #include <sys/select.h>
 #endif
 
 struct position {
@@ -160,9 +164,10 @@ void changeDirection(snake *body, char newDirection) {
 }
 
 char chooseDirection(char actual) {
-    #ifdef _WIN32
-        static bool waitingForArrowCode = false;
 
+    #ifdef _WIN32
+
+        static bool waitingForArrowCode = false;
         char newDirection = actual;
 
         while (_kbhit()) {
@@ -186,8 +191,53 @@ char chooseDirection(char actual) {
         }
 
         return newDirection;
+
+    #else
+
+        static bool initialized = false;
+        static termios oldTermios;
+
+        if (!initialized) {
+            tcgetattr(STDIN_FILENO, &oldTermios);
+
+            termios newTermios = oldTermios;
+            newTermios.c_lflag &= ~(ICANON | ECHO);
+            newTermios.c_cc[VMIN] = 0;
+            newTermios.c_cc[VTIME] = 0;
+
+            tcsetattr(STDIN_FILENO, TCSANOW, &newTermios);
+            initialized = true;
+        }
+
+        char newDirection = actual;
+
+        unsigned char input;
+
+        while (read(STDIN_FILENO, &input, 1) > 0) {
+
+            if (input == 27) {
+                unsigned char sequence[2];
+
+                if (read(STDIN_FILENO, &sequence[0], 1) <= 0)
+                    continue;
+
+                if (read(STDIN_FILENO, &sequence[1], 1) <= 0)
+                    continue;
+
+                if (sequence[0] == '[') {
+                    switch (sequence[1]) {
+                        case 'A': newDirection = 'N'; break;
+                        case 'B': newDirection = 'S'; break;
+                        case 'D': newDirection = 'W'; break;
+                        case 'C': newDirection = 'E'; break;
+                    }
+                }
+            }
+        }
+
+        return newDirection;
+
     #endif
-    return actual;
 }
 
 char getCurrentDirection(snake * body) {
