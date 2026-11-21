@@ -15,6 +15,18 @@
     #include <sys/select.h>
 #endif
 
+#ifndef _WIN32
+void resetTerminalInput() {
+    termios current;
+    if (tcgetattr(STDIN_FILENO, &current) == 0) {
+        current.c_lflag |= (ICANON | ECHO);
+        current.c_cc[VMIN] = 1;
+        current.c_cc[VTIME] = 0;
+        tcsetattr(STDIN_FILENO, TCSANOW, &current);
+    }
+}
+#endif
+
 struct position {
     int x;
     int y;
@@ -256,16 +268,45 @@ fruit * createFruit(int gridSize){
 }
 
 void displayFruit(fruit * fruit) {
-    draw(fruit->x, fruit->y, '#');
+    draw(fruit->x + 1, fruit->y + 1, '#');
 }
 
 fruit * eatFruit(fruit * oldFruit, int & score, int gridSize) {
     delete oldFruit;
     fruit *newFruit = new fruit;
     newFruit->x = getRandomNb(gridSize);
-    newFruit->y = getRandomNb(gridSize);
+    newFruit->y = getRandomNb(gridSize / 2);
     score++;
     return newFruit;
+}
+
+fruit * checkEat(fruit * currentFruit, snake * body, int & currentScore, int gridSize) {
+    if(
+        currentFruit->x == body->head->pos.x &&
+        currentFruit->y == body->head->pos.y
+    ) {
+        addTail(body, gridSize);
+        return eatFruit(currentFruit, currentScore, gridSize);
+    } else {
+        return currentFruit;
+    }
+}
+
+bool checkContinue(snake * body) {
+    maillon * currentMaillon = body->head->prev;
+
+    while (currentMaillon != nullptr) {
+        if(
+            currentMaillon->pos.x == body->head->pos.x && 
+            currentMaillon->pos.y == body->head->pos.y
+        ) {
+            return false;
+        }
+
+        currentMaillon = currentMaillon->prev;
+    }
+
+    return true;
 }
 
 void snakeGame() {
@@ -273,20 +314,22 @@ void snakeGame() {
     
     int gridSize = 50;
     
-    snake *testBody = new snake;
+    snake * testBody = new snake;
     init(testBody, gridSize);
-    addTail(testBody, gridSize);
-    addTail(testBody, gridSize);
-    addTail(testBody, gridSize);
-    addTail(testBody, gridSize);
     addTail(testBody, gridSize);
     
     char direction = 'E';
 
-    for(int i = 0; i < 1000; i++) {
+    fruit * currentFruit =  createFruit(gridSize);
+
+    int score = 0;
+
+    while (checkContinue(testBody)) {
         clearScreen();
         displayGrid(gridSize);
+        displayFruit(currentFruit);
         displaySnake(testBody);
+        currentFruit = checkEat(currentFruit, testBody, score, gridSize);
 
         setCursor(0, gridSize / 2 + 2);
         std::cout << std::flush;
@@ -300,5 +343,6 @@ void snakeGame() {
         changeDirection(testBody, direction);
     }
 
+    resetTerminalInput();
     backToMenu();
 }
