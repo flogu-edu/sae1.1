@@ -309,14 +309,19 @@ bool checkContinue(snake * body) {
     return true;
 }
 
+void displayScore(int score, int gridSize) {
+    setCursor(0, gridSize / 2 + 2);
+    std::cout<< "Score : " << score <<std::endl;
+}
+
 void snakeGame() {
     clearScreen();
     
     int gridSize = 50;
     
-    snake * testBody = new snake;
-    init(testBody, gridSize);
-    addTail(testBody, gridSize);
+    snake * body = new snake;
+    init(body, gridSize);
+    addTail(body, gridSize);
     
     char direction = 'E';
 
@@ -324,25 +329,31 @@ void snakeGame() {
 
     int score = 0;
 
-    while (checkContinue(testBody)) {
+    while (checkContinue(body) && score < gridSize * (gridSize / 2) - 2) {
         clearScreen();
         displayGrid(gridSize);
         displayFruit(currentFruit);
-        displaySnake(testBody);
-        currentFruit = checkEat(currentFruit, testBody, score, gridSize);
-
-        setCursor(0, gridSize / 2 + 2);
+        displaySnake(body);
+        currentFruit = checkEat(currentFruit, body, score, gridSize);
+        displayScore(score, gridSize);
+        
         std::cout << std::flush;
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        forwardSnake(testBody, gridSize);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-
-        direction = chooseDirection(getCurrentDirection(testBody));
-
-        changeDirection(testBody, direction);
+        forwardSnake(body, gridSize);
+        direction = chooseDirection(getCurrentDirection(body));
+        changeDirection(body, direction);
     }
 
     resetTerminalInput();
+    clearScreen();
+
+    if(checkContinue(body)) {
+        std::cout<< "You have won !"<<std::endl;
+    } else {
+        std::cout<< "You lost..."<<std::endl;
+    }
+
     backToMenu();
 }
