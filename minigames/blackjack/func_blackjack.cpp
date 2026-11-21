@@ -144,6 +144,11 @@ void displayBlackjack(){
 
     printHand("Your hand", player_hand);
 
+    if (isBlackjack(dealer_hand) && isBlackjack(player_hand)) {
+        cout << "Both have a Blackjack, tie !" << endl;
+        printHand("Dealer hand", dealer_hand);
+    }
+
     if (isBlackjack(dealer_hand)){
 
         cout << "Blackjack for the dealer !" << endl;
