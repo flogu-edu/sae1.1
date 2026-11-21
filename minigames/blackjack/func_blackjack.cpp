@@ -143,11 +143,16 @@ void displayBlackjack(){
     vector<Cards> player_hand = {deck[rand() % 52], deck[rand() % 52]};
 
     printHand("Your hand", player_hand);
-    cout << "Dealer's hand : " << dealer_hand[0].value << dealer_hand[0].suit << " | ?" << endl;
 
-    if (isBlackjack(dealer_hand)) cout << "Blackjack for the dealer !" << endl;
+    if (isBlackjack(dealer_hand)){
+
+        cout << "Blackjack for the dealer !" << endl;
+        printHand("Dealer hand", dealer_hand);
+    } 
     else if (isBlackjack(player_hand)) cout << "Blackjack for you !" << endl;
     else {
+
+        cout << "Dealer's hand : " << dealer_hand[0].value << dealer_hand[0].suit << " | ?" << endl;
 
         int player_value = playerTurn(player_hand);
         if (exceeds21(player_hand)){
