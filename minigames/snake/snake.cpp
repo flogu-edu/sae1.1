@@ -42,7 +42,7 @@ void init(snake *body, int gridSize) {
     maillon *newPart =  new maillon;
     newPart->next = nullptr;
     newPart->prev = nullptr;
-    newPart->pos = { gridSize/2, gridSize/2 };
+    newPart->pos = { gridSize/2, gridSize/4 };
     newPart->direction = 'E';
 
     body->head = newPart;
@@ -59,22 +59,22 @@ void addTail(snake *body, int gridSize) {
     switch (body->tail->direction) {
         case 'E':
             newTail->pos.x = (body->tail->pos.x - 1 + gridSize) % gridSize;
-            newTail->pos.y = (body->tail->pos.y) % gridSize;
+            newTail->pos.y = (body->tail->pos.y) % (gridSize / 2);
             break;
         
         case 'W':
             newTail->pos.x = (body->tail->pos.x + 1) % gridSize;
-            newTail->pos.y = (body->tail->pos.y) % gridSize;
+            newTail->pos.y = (body->tail->pos.y) % (gridSize / 2);
             break;
         
         case 'N':
             newTail->pos.x = (body->tail->pos.x) % gridSize;
-            newTail->pos.y = (body->tail->pos.y - 1 + gridSize) % gridSize;
+            newTail->pos.y = (body->tail->pos.y - 1 + (gridSize / 2)) % (gridSize / 2);
             break;
         
         case 'S':
             newTail->pos.x = (body->tail->pos.x) % gridSize;
-            newTail->pos.y = (body->tail->pos.y + 1) % gridSize;
+            newTail->pos.y = (body->tail->pos.y + 1) % (gridSize / 2);
             break;
     }
 
@@ -87,14 +87,18 @@ void draw(int x, int y, char symbole) {
     std::cout<< "\033[" << y + 1 << ";" << x + 1<< "H" << symbole;
 }
 
+void setCursor(int x, int y) {
+    std::cout<< "\033[" << y + 1 << ";" << x + 1 << "H";
+}
+
 void displaySnake(snake *body) {
     maillon *currentMaillon = body->head;
 
     while (currentMaillon != nullptr) {
         if(currentMaillon->next == nullptr) {
-            draw(currentMaillon->pos.x, currentMaillon->pos.y / 2, 'O');
+            draw(currentMaillon->pos.x + 1, currentMaillon->pos.y + 1, 'O');
         } else {
-            draw(currentMaillon->pos.x, currentMaillon->pos.y / 2, 'o');
+            draw(currentMaillon->pos.x + 1, currentMaillon->pos.y + 1, 'o');
         }
 
         currentMaillon = currentMaillon->prev;
@@ -102,26 +106,26 @@ void displaySnake(snake *body) {
 }
 
 void displayGrid(int gridSize) {
-    for(int x = 0; x < gridSize; x++) {
+    for(int x = 0; x <= gridSize; x++) {
         draw(x, 0, '-');
     }
 
-    for (int x = 0; x < gridSize; x++) {
-        draw(x, gridSize/2, '-');
+    for (int x = 0; x <= gridSize; x++) {
+        draw(x, gridSize/2 + 1, '-');
     }
 
-    for(int y = 0; y < gridSize / 2; y++) {
+    for(int y = 0; y <= gridSize / 2; y++) {
         draw(0, y, '|');
     }
 
-    for(int y = 0; y < gridSize / 2; y++) {
-        draw(gridSize, y, '|');
+    for(int y = 0; y <= gridSize / 2; y++) {
+        draw(gridSize + 1, y, '|');
     }
 
     draw(0, 0, '+');
-    draw(gridSize, 0, '+');
-    draw(0, gridSize / 2, '+');
-    draw(gridSize, gridSize / 2, '+');
+    draw(gridSize + 1, 0, '+');
+    draw(0, gridSize / 2 + 1, '+');
+    draw(gridSize + 1, gridSize / 2 + 1, '+');
 }
 
 void forwardSnake(snake *body, int gridSize) {
@@ -138,12 +142,12 @@ void forwardSnake(snake *body, int gridSize) {
     switch (body->head->direction) {
         case 'S':
             body->head->pos.x = body->head->pos.x;
-            body->head->pos.y = (body->head->pos.y + 1) % gridSize;
+            body->head->pos.y = (body->head->pos.y + 1) % (gridSize / 2);
             break;
         
         case 'N':
             body->head->pos.x = body->head->pos.x;
-            body->head->pos.y = (body->head->pos.y - 1 + gridSize) % gridSize;
+            body->head->pos.y = (body->head->pos.y - 1 + (gridSize / 2)) % (gridSize / 2);
             break;
         
         case 'E':
@@ -247,7 +251,7 @@ char getCurrentDirection(snake * body) {
 fruit * createFruit(int gridSize){
     fruit *newFruit = new fruit;
     newFruit->x = getRandomNb(gridSize);
-    newFruit->y = getRandomNb(gridSize);
+    newFruit->y = getRandomNb(gridSize/2);
     return newFruit;
 }
 
@@ -283,11 +287,13 @@ void snakeGame() {
         clearScreen();
         displayGrid(gridSize);
         displaySnake(testBody);
+
+        setCursor(0, gridSize / 2 + 2);
+        std::cout << std::flush;
         
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         forwardSnake(testBody, gridSize);
 
-        draw(0, gridSize / 2 + 1, ' ');
 
         direction = chooseDirection(getCurrentDirection(testBody));
 
