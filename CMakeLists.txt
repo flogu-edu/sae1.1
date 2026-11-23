@@ -17,6 +17,7 @@ add_executable(SAE1.1
     minigames/snake/snake.cpp
     minigames/wordle/wordle.cpp
     minigames/blackjack/func_blackjack.cpp
+    minigames/tictacstack/tictacstack.cpp
 )
 
 target_include_directories(SAE1.1 PRIVATE ${PROJECT_SOURCE_DIR})

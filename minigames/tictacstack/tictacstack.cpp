@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "tictacstack.h"
 #include "3debutPartie.h"
 #include "2afficherGrille.h"
 #include "jouerPossible.h"

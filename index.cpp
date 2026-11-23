@@ -3,11 +3,11 @@
 #include "utils/clearScreen.h"
 
 #include "minigames/pow_n/pow_n.hpp"
-#include "minigames/ticktackstack.hpp"
 #include "minigames/wordle/wordle.h"
 #include "minigames/pendu/pendu.h"
 #include "minigames/snake/snake.h"
 #include "minigames/blackjack/blackjack.h"
+#include "minigames/tictacstack/tictacstack.h"
 
 void displayMenu(std::string games[], int nbGames);
 int menuInput(std::string games[], int nbGames);
