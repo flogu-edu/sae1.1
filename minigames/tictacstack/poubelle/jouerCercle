@@ -1,0 +1,68 @@
+#include <iostream>
+#include <string>
+#include "2afficherGrille.h"
+#include "structGrille.h"
+#include "structpos.h"
+
+#ifndef JOUERCERCLE_H
+#define JOUERCERCLE_H
+
+void jouerCercle(position position,  grille taille, int Cercle, std::string tab[][100]){
+    int posfinalX ;
+    int posfinalY ;
+    int pas = taille.tailleCase + 1 ;
+
+    if (position.colonne < 1 || position.colonne > taille.tailleGrille || position.ligne < 1 || position.ligne > taille.tailleGrille){
+        std::cout << "Case invalide" << std::endl;
+        return;
+    }
+    if (Cercle < 1 || 2 * Cercle - 1 > taille.tailleCase){
+        std::cout << "Taille de cercle invalide" << std::endl;
+        return;
+    }
+
+    if (taille.tailleCase % 2 == 1) {
+        posfinalX = (position.colonne - 1) * pas + taille.tailleCase / 2;
+        posfinalY = (position.ligne - 1) * pas + taille.tailleCase/ 2;
+    }
+    else {
+        posfinalX = (position.colonne - 1) * pas + (taille.tailleCase - 1) / 2;
+        posfinalY = (position.ligne - 1) * pas + (taille.tailleCase - 1) / 2;
+    }
+
+    int posdecalX = posfinalX;
+    int posdecalY = posfinalY;
+    int x = Cercle - 1 ;
+
+    if(Cercle == 1){
+        tab[posfinalX][posfinalY] = 'O';
+    }
+    else {
+        for( int j = 0 - x; j <= x; j++){
+            posdecalX = posfinalX + j ;
+            posdecalY = posfinalY + x ;  
+            tab[posdecalX][posdecalY] = 'O';
+        }
+
+        for( int j = 0 - x; j <= x; j++){
+            posdecalX = posfinalX + j ;
+            posdecalY = posfinalY - x ;  
+            tab[posdecalX][posdecalY] = 'O';
+        }
+
+        for( int j = 0 - x; j <= x; j++){
+            posdecalX = posfinalX - x ;
+            posdecalY = posfinalY + j ;  
+            tab[posdecalX][posdecalY] = 'O';
+        }
+
+        for( int j = 0 - x; j <= x; j++){
+            posdecalX = posfinalX + x ;
+            posdecalY = posfinalY + j ;
+            tab[posdecalX][posdecalY] = 'O';
+        }
+    }
+    afficherGrille(taille, tab);
+}
+
+#endif //JOUERCERCLE_H 

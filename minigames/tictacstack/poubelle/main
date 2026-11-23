@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+#include "creerGrille.h"
+#include "afficherGrille.h"
+#include "structGrille.h"
+
+int tictacstack()
+{
+    std::string tab[100][100];
+    grille taille ;
+    int Croix = 0 ;
+    int Cercle = 0 ;
+    int posX = 0;
+    int posY = 0;
+
+    creerGrille(taille, tab);
+    afficherGrille(taille, tab);
+
+    //Partie(posX, posY, tailleGrille, tailleCase, Cercle, Croix, tab, Jouer);
+}

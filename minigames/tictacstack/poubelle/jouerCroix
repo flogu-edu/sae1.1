@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+#include "2afficherGrille.h"
+#include "initTabPos.h"
+#include "structGrille.h"
+#include "structpos.h"
+
+
+#ifndef JOUERCROIX_H
+#define JOUERCROIX_H
+
+void jouerCroix(position position, grille taille, int Croix, std::string partie[][100], std::string tab[][100]){
+    int posfinalX ;
+    int posfinalY ;
+    int pas = taille.tailleCase + 1 ;
+
+    if (position.colonne < 1 || position.colonne > taille.tailleGrille || position.ligne < 1 || position.ligne > taille.tailleGrille){
+        std::cout << "Case invalide" << std::endl;
+        return;
+    }
+    if (Croix < 1 || 2 * Croix - 1 > taille.tailleCase){
+        std::cout << "Taille de croix invalide" << std::endl;
+        return;
+    }
+
+    if (taille.tailleCase % 2 == 1) {
+        posfinalX = (position.colonne - 1) * pas + taille.tailleCase / 2;
+        posfinalY = (position.ligne - 1) * pas + taille.tailleCase / 2;
+    }
+    else {
+        posfinalX = (position.colonne - 1) * pas + (taille.tailleCase-1) / 2;
+        posfinalY = (position.ligne - 1) * pas + (taille.tailleCase-1) / 2;
+    }
+
+    int posdecalX = posfinalX;
+    int posdecalY = posfinalY;
+
+    partie[posfinalX][posfinalY] = 'X';
+    for( int j = 0; j < (Croix - 1); j++){
+        posdecalX = posdecalX + 1 ;
+        posdecalY = posdecalY + 1 ;
+        partie[posdecalX][posdecalY] = 'X';
+    }
+    posdecalX = posfinalX ;
+    posdecalY = posfinalY ;
+    for( int j = 0; j < (Croix - 1); j++){
+        posdecalX = posdecalX - 1 ;
+        posdecalY = posdecalY - 1 ;
+        partie[posdecalX][posdecalY] = 'X';
+    }
+    posdecalX = posfinalX ;
+    posdecalY = posfinalY ;
+    for( int j = 0; j < (Croix - 1); j++){
+        posdecalX = posdecalX + 1 ;
+        posdecalY = posdecalY - 1 ;
+        partie[posdecalX][posdecalY] = 'X';
+    }
+    posdecalX = posfinalX ;
+    posdecalY = posfinalY ;
+    for( int j = 0; j < (Croix - 1); j++){
+        posdecalX = posdecalX - 1 ;
+        posdecalY = posdecalY + 1 ;
+        partie[posdecalX][posdecalY] = 'X';
+    }
+    initTabPos(tab, position, Croix);
+    afficherGrille(taille, partie);
+}
+
+#endif //JOUERCROIX_H 
