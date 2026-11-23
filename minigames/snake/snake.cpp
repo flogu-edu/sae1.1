@@ -94,9 +94,11 @@ void addTail(snake *body, int gridSize) {
     body->tail = newTail;
 }
 
-
-void draw(int x, int y, char symbole) {
-    std::cout<< "\033[" << y + 1 << ";" << x + 1<< "H" << symbole;
+void draw(int x, int y, char symbole, int color = 37) {
+    std::cout << "\033[" << y + 1 << ";" << x + 1 << "H"
+              << "\033[" << color << "m"
+              << symbole
+              << "\033[0m";
 }
 
 void setCursor(int x, int y) {
@@ -108,9 +110,9 @@ void displaySnake(snake *body) {
 
     while (currentMaillon != nullptr) {
         if(currentMaillon->next == nullptr) {
-            draw(currentMaillon->pos.x + 1, currentMaillon->pos.y + 1, 'O');
+            draw(currentMaillon->pos.x + 1, currentMaillon->pos.y + 1, 'O', 32);
         } else {
-            draw(currentMaillon->pos.x + 1, currentMaillon->pos.y + 1, 'o');
+            draw(currentMaillon->pos.x + 1, currentMaillon->pos.y + 1, 'o', 32);
         }
 
         currentMaillon = currentMaillon->prev;
@@ -268,7 +270,7 @@ fruit * createFruit(int gridSize){
 }
 
 void displayFruit(fruit * fruit) {
-    draw(fruit->x + 1, fruit->y + 1, '#');
+    draw(fruit->x + 1, fruit->y + 1, '#', 31);
 }
 
 fruit * eatFruit(fruit * oldFruit, int & score, int gridSize) {
