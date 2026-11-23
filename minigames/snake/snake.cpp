@@ -393,7 +393,9 @@ void snakeGame() {
         changeDirection(body, direction);
     }
 
-    resetTerminalInput();
+    #ifndef _WIN32
+        resetTerminalInput();
+    #endif
     clearScreen();
 
     if(checkContinue(body)) {
