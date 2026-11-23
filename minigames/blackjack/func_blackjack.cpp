@@ -5,6 +5,7 @@
 #include <ctime>
 
 #include "blackjack.h"
+#include "../../utils/clearScreen.h"
 #include "../../utils/backToMenu.h"
 using namespace std;
 
@@ -197,6 +198,7 @@ void blackjack(){
     srand(time(NULL));
 
     do {
+        clearScreen();
         displayBlackjack();
     } while (askReplay());
 
