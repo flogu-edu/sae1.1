@@ -11,7 +11,7 @@ int initPion(int tailleCase){
     do{
         std::cout<<"Taille du pion ?"<<std::endl;
         std::cin>>taillepion;
-        tailleInvalide = (taillepion > ((tailleCase + 1)/2)  || taillepion <= 0);
+        tailleInvalide = (taillepion > ((tailleCase + 1)/2)  || taillepion <= 0 );
         if (std::cin.fail()) {
             std::cin.clear();
         }   

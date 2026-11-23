@@ -15,7 +15,7 @@ grille initGrille(grille & taille){
         do{
             std::cout<<"Taille de la grille ?" <<std::endl;
             std::cin>>taille.tailleGrille;
-            tailleGrilleInvalide = (taille.tailleGrille <= 0) ;
+            tailleGrilleInvalide = (taille.tailleGrille <= 2) ;
             if (std::cin.fail()) {
                     std::cin.clear();
             }   

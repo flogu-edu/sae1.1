@@ -62,10 +62,10 @@ void Partie(grille & taille, std::string partie[][100],std::string tabX[][100], 
         }
     }
     if(victoireX(tabX, tabO, taille)){
-        std::cout<<"les croix ont gagnées !"<<std::endl;
+        std::cout<<"les croix ont gagnees !"<<std::endl;
     }
     else if(victoireO(tabX, tabO, taille)){
-        std::cout<<"les ronds ont gagnées !"<<std::endl;
+        std::cout<<"les ronds ont gagnees !"<<std::endl;
     }
     else {
         std::cout<<"Match nul !"<<std::endl;
