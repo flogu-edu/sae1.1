@@ -170,12 +170,16 @@ void pendu() {
     char userInput;
     std::string fails = "";
 
+    clearScreen();
+    displayFailures(fails);
+    displayPendu(userWord);
+
     while (!checkSuccess(userWord) && failsNb < 7) {
+        userInput = getUserInput();
+        check(userInput, word, userWord, failsNb, fails);
         clearScreen();
         displayFailures(fails);
         displayPendu(userWord);
-        userInput = getUserInput();
-        check(userInput, word, userWord, failsNb, fails);
     }
 
     if(checkSuccess(userWord)) {

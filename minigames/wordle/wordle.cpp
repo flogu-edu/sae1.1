@@ -4,6 +4,7 @@
 #include "wordle.h"
 #include "../../utils/getRandomWord.h"
 #include "../../utils/backToMenu.h"
+#include "../../utils/clearScreen.h"
 
 void displayWordle(std::string letters[][5], int status[][5]) {
     for(int i = 0; i < 5; i++) {
@@ -14,7 +15,7 @@ void displayWordle(std::string letters[][5], int status[][5]) {
                 std::cout<<"\033[0;37m"<< letters[i][j]<<"\033[0m";
                 break;
                 case 1:
-                    std::cout<<"\033[0;33m"<< letters[i][j] <<"\033[0m";
+                    std::cout<<"\033[43;90m"<< letters[i][j] <<"\033[0m";
                     break;
                 case 2:
                 std::cout<<"\033[0;32m"<< letters[i][j] <<"\033[0m";
@@ -153,15 +154,18 @@ void wordle() {
     clearWordle(letters, status);
     
     std::string userWord = "";
+
+    displayWordle(letters, status);
     
-    while (attempt < 5 && !isSuccess(status)) {
-        displayWordle(letters, status);
+    while (attempt <= 4 && !isSuccess(status)) {
         userWord = getUserWord();
         checkWord(attempt, userWord, chosenWord, letters, status);
+        clearScreen();
         attempt++;
+        displayWordle(letters, status);
     }
 
-    if (attempt >= 5) {
+    if (attempt >= 4 && !isSuccess(status)) {
         std::cout<<"You loose, the word was : "<<chosenWord<<std::endl;
     }
 
