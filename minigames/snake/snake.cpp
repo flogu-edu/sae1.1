@@ -177,10 +177,6 @@ void forwardSnake(snake *body, int gridSize) {
     
 }
 
-void changeDirection(snake *body, char newDirection) {
-    body->head->direction = newDirection;
-}
-
 char chooseDirection(char actual) {
 
     #ifdef _WIN32
@@ -260,6 +256,20 @@ char chooseDirection(char actual) {
 
 char getCurrentDirection(snake * body) {
     return body->head->direction;
+}
+
+void changeDirection(snake *body, char newDirection) {
+    if(getCurrentDirection(body) == 'N' && newDirection == 'S') {
+        body->head->direction = getCurrentDirection(body);
+    } else if(getCurrentDirection(body) == 'S' && newDirection == 'N') {
+        body->head->direction = getCurrentDirection(body);
+    } else if(getCurrentDirection(body) == 'E' && newDirection == 'W') {
+        body->head->direction = getCurrentDirection(body);
+    } else if(getCurrentDirection(body) == 'W' && newDirection == 'E') {
+        body->head->direction = getCurrentDirection(body);
+    } else {
+        body->head->direction = newDirection;
+    }
 }
 
 fruit * createFruit(int gridSize){
